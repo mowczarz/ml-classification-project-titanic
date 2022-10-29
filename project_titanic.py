@@ -21,8 +21,8 @@
 # The plan for this project is as follows:
 # 1. Preparing our workspace
 # 2. Getting familiar with data
-# 3. Feature Engineering
-# 4. Data Preprocessing
+# 3. Feature engineering
+# 4. Data preprocessing
 # 5. 🤖 Testing different models 🤖
 # 6. Improving selected models
 # 7. Trying to experiment (a little) and final testing results
@@ -271,30 +271,25 @@ for col in ['Pclass', 'Sex', 'Embarked']:
 # ### Generate reports
 # The other way to get basic analysis quickly is using the `pandas_profiling` library.
 # 
-# To be honest - it includes what we generated above plus lots of other details. We'll generate them for both of our datasets.
+# To be honest - it includes what we generated above plus lots of other details. We'll generate them for both of our datasets and we'll put them to the `data` folder of our project.
 
 # In[18]:
 
 
 profile_train = ProfileReport(data_train, title='Train Dataset', html = {'style':{'full_width': True}})
-profile_train
+profile_train.to_file("data/report-train_dataset.html")
 
 
 # In[19]:
 
 
 profile_test = ProfileReport(data_test, title='Test Dataset', html = {'style':{'full_width': True}})
-profile_test
+profile_test.to_file("data/report-test_dataset.html")
 
 
-# Problem with displaying reports? Check the `data` folder, reports have been exported there for this case.
-
-# In[20]:
-
-
-# profile_train.to_file("data/Report-train_dataset.html")
-# profile_test.to_file("data/Report-test_dataset.html")
-
+# It's possible to view these reports in the Jupyter Notebook window, but there are sometimes problems with this.
+# 
+# Check `data` folder or just click here [report-train_dataset.html](data/report-train_dataset.html) or here [report-test_dataset.html](data/report-test_dataset.html) to view.
 
 # ### Summary for the next steps
 # 
@@ -320,7 +315,7 @@ profile_test
 
 # Ok, we have some work ahead of us, so let's not extend it - let's start!
 
-# ## 3. Feature Engineering
+# ## 3. Feature engineering
 # At this stage of the project, we will play a little bit with the data to add / remove / change variables.
 # 
 # We'll work here on a copy of our data and in the next section "Data preprocessing" we'll introduce the developed changes.
@@ -496,7 +491,7 @@ print("Corelations:", temp_dataset['Fare'].corr(temp_dataset['Survived']), temp_
 # 
 # Okay, we've been working a bit... Time to move on.
 
-# ## 4. Data Preprocessing
+# ## 4. Data preprocessing
 # 
 # Alright, now we have a hard nut to crack. We need to make a function that will transform our data to the desired form as we established earlier. Additionally, we'll encode categorical features (which is necessary) and normalize numerical features (which is usually helpful).
 # 
@@ -1275,7 +1270,7 @@ best_models = {"XGBoost": random_search_models["XGBoost"].best_estimator_,
 # 
 # In my humble opinion, the data that we have is not sufficient to achieve an effectiveness close to 1.0. In a real situation, we could try to get more data - both more records and more variables. I think it could help us to improve the quality of our models the most.
 # 
-# We could also spend more time with Feature Engineering. We should examine the significance of the variables and test their various combinations (in our project, we left it to the models).
+# We could also spend more time with feature engineering. We should examine the significance of the variables and test their various combinations (in our project, we left it to the models).
 # 
 # But we'll try something different here. 🙂 We’ll use one of possibilities and we’ll play with combing models using `VotingClassifier`.
 # 
@@ -1522,23 +1517,23 @@ final_scores[['our_test_score', 'kaggle_score']]
 # 
 # Firstly - why are our final results worse than those of the our tests? 
 # 
-# We've probably overfitted models a bit. This is a situation where our models have fitted too much to the training data, which is why they do not do that well on the test.
+# The main reason could be that the structure of the test data is slightly different than that of the training data. We haven't spent much time exploring this possibility.
 # 
-# Another reason is probably that the structure of the test data is slightly different than that of the training data. We haven't spent much time exploring this possibility.
-# 
-# I think the key might be the different distribution of the variable `sex`, which is by far the most significant of all the variables. You know, "Women and children first" but age is not that important in this case. 🙂
+# I think the key might be the different distribution of the variable `sex`, which is by far the most significant of all the variables. You know, "Women and children first". 🙂
 # 
 # Check this out. I did one more submission aside, *'sex_only.csv'*, where I assumed all women survived and all men did not. Just look at the result.
 
 # ![survived_by_sex](images/survived_by_sex.png)
 
-# An impressive result, isn't it? 😉
+# An impressive score, isn't it? 😉
 # 
 # I saw in the traning dataset that the vast majority of men didn't survive, which makes them much more predictable. With women the matter is more difficult. Women like women - are more difficult to predict. 🙂
 # 
-# We have a greater proportion of women in the test dataset than in the training set, which made our models a more difficult task.
+# We have a greater proportion of women in the test dataset (57,1%) than in the training set (54,4%), which made our models a more difficult task.
 # 
-# What about the Kaggle leaderboard?
+# ---
+# 
+# **What about the Kaggle leaderboard?**
 
 # ![kaggle_leaderboard](images/kaggle_leaderboard.png)
 
