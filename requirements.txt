@@ -1,0 +1,12 @@
+jupyterlab==3.4.4
+IPython==8.4.0
+ipywidgets==7.7.1
+python==3.10.4
+pandas==1.4.3
+numpy==1.23.1
+matplotlib==3.5.2
+sklearn==1.1.2
+seaborn==0.11.2
+pandas_profiling==3.2.0
+xgboost==1.6.1
+lightgbm==3.3.2
